@@ -1,0 +1,66 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fantasy Books</title>
+    <style>
+      .category {
+        margin-top: 20px;
+      }
+      .book {
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Fantasy Books</h1>
+    <div id="booksContainer"></div>
+
+    <script>
+      // the function to fetch the books from the api
+      function fetchBooks(category, containerId) {
+        const url = `https://openlibrary.org/subjects/${category}.json?limit=10`;
+
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            const books = data.works;
+            const container = document.getElementById(containerId);
+
+            // Displaying the books
+            books.forEach((book) => {
+              const bookElement = document.createElement("div");
+              bookElement.className = "book";
+              bookElement.innerHTML = `<strong>Title:</strong> ${book.title}<br><strong>Author:</strong> ${book.authors[0].name}
+              <img src="https://covers.openlibrary.org/b/ID/${book.cover_id}-S.jpg"/>`;
+              container.appendChild(bookElement);
+              console.log(book);
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+
+      // Fetches 10 fantasy books
+      fetchBooks("fantasy", "booksContainer");
+
+      // Then the subcategories:
+      const categories = ["high_fantasy", "urban_fantasy", "epic_fantasy"];
+
+      categories.forEach((category) => {
+        const categoryDiv = document.createElement("div");
+        categoryDiv.className = "category";
+        categoryDiv.innerHTML = `<h2>${category
+          .split("_")
+          .join(" ")
+          .toUpperCase()}</h2><div id="${category}Container"></div>`;
+        document.body.appendChild(categoryDiv);
+
+        // Fetches 10 books for each subcategory
+        fetchBooks(category, `${category}Container`);
+      });
+    </script>
+  </body>
+</html>
