@@ -1,8 +1,9 @@
 /** @format */
 
-// the function to fetch the books from the api
-function fetchBooks(category, containerId) {
-  const url = `https://openlibrary.org/subjects/${category}.json?limit=10`;
+// Funktionen der fetcher bøgerne fra Open Library APIt
+function fetchFantasyBooks(category, containerId) {
+  const url = `https://openlibrary.org/subjects/${category}.json?`; //limit=10: specificeret at det skal være limit til 10 bøger (så det ikke er overvældende antallet af bøger der vises)
+  // const url = `https://openlibrary.org/subjects/${category}.json?limit=10`; //limit=10: specificeret at det skal være limit til 10 bøger (så det ikke er overvældende antallet af bøger der vises)
 
   fetch(url)
     .then((response) => response.json())
@@ -10,7 +11,7 @@ function fetchBooks(category, containerId) {
       const books = data.works;
       const container = document.getElementById(containerId);
 
-      // Displaying the books
+      // Visning af bøgerne
       books.forEach((book) => {
         const bookElement = document.createElement("li");
         bookElement.className = "book";
@@ -25,10 +26,10 @@ function fetchBooks(category, containerId) {
     });
 }
 
-// Fetches 10 fantasy books
-fetchBooks("fantasy", "booksContainer");
+// Fetch fantasy bøgerne
+fetchFantasyBooks("fantasy", "booksContainer");
 
-// Then the subcategories:
+// Subkatagorierne:
 const categories = ["high_fantasy", "urban_fantasy", "epic_fantasy"];
 
 categories.forEach((category) => {
@@ -40,6 +41,6 @@ categories.forEach((category) => {
     .toUpperCase()}</h2><div id="${category}Container"></div>`;
   document.body.appendChild(categoryDiv);
 
-  // Fetches 10 books for each subcategory
-  fetchBooks(category, `${category}Container`);
+  // Fetcher bøger for hver katagori
+  fetchFantasyBooks(category, `${category}Container`);
 });
