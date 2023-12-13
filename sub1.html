@@ -11,7 +11,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-		<script src="fetchingAPI.js"></script>
 	</head>
 	<body class="is-preload">
 		<!-- Wrapper -->
@@ -74,9 +73,10 @@
 						<div class="col-6 col-12-medium">
 						
 							<h3>Books</h3>
-							<ul class="alt" id="booksContainer">
+							<div id="allBooks"></div>
+							<!--ul class="alt" id="high_fantasyContainer">
 								
-							</ul>
+							</ul-->
 						</div>
 
 						</div>
@@ -134,6 +134,11 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+
+			<script src="fetchingAPI.js"></script>
+			<script>
+				populateTheBooks(["high_fantasy"]);
+			</script>
 
 	</body>
 </html>

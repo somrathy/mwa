@@ -2,13 +2,13 @@
 
 // Funktionen der fetcher bøgerne fra Open Library APIt
 function fetchFantasyBooks(category, containerId) {
-  const url = `https://openlibrary.org/subjects/${category}.json?`; //limit=10: specificeret at det skal være limit til 10 bøger (så det ikke er overvældende antallet af bøger der vises)
-  // const url = `https://openlibrary.org/subjects/${category}.json?limit=10`; //limit=10: specificeret at det skal være limit til 10 bøger (så det ikke er overvældende antallet af bøger der vises)
+  const url = `https://openlibrary.org/subjects/${category}.json?`; //hvis vi vil vælge et specifikt antal bøger der højst må vises kan man gøre det ved at tilføje fx limit=10 som specificeret at det skal være et max af 10 bøger (fx så det ikke er overvældende antallet af bøger der vises): const url = `https://openlibrary.org/subjects/${category}.json?limit=10`; //limit=10: specificeret at det skal være limit til 10 bøger (så det ikke er overvældende antallet af bøger der vises)
 
   fetch(url)
     .then((response) => response.json())
     .then((data) => {
       const books = data.works;
+      console.log("inside the fetch ", containerId);
       const container = document.getElementById(containerId);
 
       // Visning af bøgerne
@@ -27,20 +27,24 @@ function fetchFantasyBooks(category, containerId) {
 }
 
 // Fetch fantasy bøgerne
-fetchFantasyBooks("fantasy", "booksContainer");
+//fetchFantasyBooks("fantasy", "booksContainer");
 
-// Underemnerne:
-const categories = ["high_fantasy", "urban_fantasy", "epic_fantasy"];
+// populateTheBooks(["high_fantasy"])
+function populateTheBooks(categories) {
+  // Underemnerne:
+  //const categories = ["high_fantasy", "urban_fantasy", "epic_fantasy"];
 
-categories.forEach((category) => {
-  const categoryDiv = document.createElement("li");
-  categoryDiv.className = "category";
-  categoryDiv.innerHTML = `<h2>${category
-    .split("_")
-    .join(" ")
-    .toUpperCase()}</h2><div id="${category}Container"></div>`;
-  document.body.appendChild(categoryDiv);
+  categories.forEach((category) => {
+    const categoryDiv = document.createElement("li");
+    categoryDiv.className = "category";
+    categoryDiv.innerHTML = `<h2>${category
+      .split("_")
+      .join(" ")
+      .toUpperCase()}</h2><div id="${category}Container"></div>`;
+    document.getElementById("allBooks").appendChild(categoryDiv);
 
-  // Fetcher bøger for hver katagori
-  fetchFantasyBooks(category, `${category}Container`);
-});
+    // DEBUG console.log(`${category}Container`);
+    // Fetcher bøger for hver katagori
+    fetchFantasyBooks(category, `${category}Container`);
+  });
+}
