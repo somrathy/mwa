@@ -29,11 +29,11 @@ function fetchFantasyBooks(category, containerId) {
 // Fetch fantasy bøgerne
 fetchFantasyBooks("fantasy", "booksContainer");
 
-// Subkatagorierne:
+// Underemnerne:
 const categories = ["high_fantasy", "urban_fantasy", "epic_fantasy"];
 
 categories.forEach((category) => {
-  const categoryDiv = document.createElement("div");
+  const categoryDiv = document.createElement("li");
   categoryDiv.className = "category";
   categoryDiv.innerHTML = `<h2>${category
     .split("_")
