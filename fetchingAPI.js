@@ -1,39 +1,33 @@
 /** @format */
 
-// Funktionen der fetcher bøgerne fra Open Library APIt
+// This function fetches books from Open Library API
 function fetchFantasyBooks(category, containerId) {
-  const url = `https://openlibrary.org/subjects/${category}.json?`; //hvis vi vil vælge et specifikt antal bøger der højst må vises kan man gøre det ved at tilføje fx limit=10 som specificeret at det skal være et max af 10 bøger (fx så det ikke er overvældende antallet af bøger der vises): const url = `https://openlibrary.org/subjects/${category}.json?limit=10`; //limit=10: specificeret at det skal være limit til 10 bøger (så det ikke er overvældende antallet af bøger der vises)
+  const url = `https://openlibrary.org/subjects/${category}.json?`;
 
+  //This is where we fetch the url and then get the response in json which we then retrieve the data.
   fetch(url)
     .then((response) => response.json())
     .then((data) => {
       const books = data.works;
-      console.log("inside the fetch ", containerId);
       const container = document.getElementById(containerId);
 
-      // Visning af bøgerne
+      // Then we say that for each book we want the title, author and cover of the book. We have decided that the book element is in an li html-element
       books.forEach((book) => {
         const bookElement = document.createElement("li");
         bookElement.className = "book";
         bookElement.innerHTML = `<strong>Title:</strong> ${book.title} <strong>   Author:</strong> ${book.authors[0].name}<br />
               <img src="https://covers.openlibrary.org/b/ID/${book.cover_id}-S.jpg"/>`;
         container.appendChild(bookElement);
-        console.log(book);
       });
     })
+    //here we want to catch errors if they occur. If they occur we want the error to show in our console.
     .catch((error) => {
       console.log(error);
     });
 }
 
-// Fetch fantasy bøgerne
-//fetchFantasyBooks("fantasy", "booksContainer");
-
-// populateTheBooks(["high_fantasy"])
+// Here we make a function that we call when we want to fetch books from a certain sub category.
 function populateTheBooks(categories) {
-  // Underemnerne:
-  //const categories = ["high_fantasy", "urban_fantasy", "epic_fantasy"];
-
   categories.forEach((category) => {
     const categoryDiv = document.createElement("li");
     categoryDiv.className = "category";
@@ -43,8 +37,7 @@ function populateTheBooks(categories) {
       .toUpperCase()}</h2><div id="${category}Container"></div>`;
     document.getElementById("allBooks").appendChild(categoryDiv);
 
-    // DEBUG console.log(`${category}Container`);
-    // Fetcher bøger for hver katagori
+    // Fetches books for the chosen category.
     fetchFantasyBooks(category, `${category}Container`);
   });
 }
